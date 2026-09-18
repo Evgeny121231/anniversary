@@ -1,668 +1,503 @@
 document.addEventListener("DOMContentLoaded",()=>{
 
-
-let selectedDate = "";
-let selectedTime = "";
-let selectedChoice = "";
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzvxIYU63ttbgPl5JinEPN8btZB4he2D6rtVoAS6IqZmTfuSPco5opBoqGXL04PW2mY/exec";
 
 
+const screens =
+[...document.querySelectorAll(".screen")];
 
-const screens = document.querySelectorAll(".screen");
+const choices =
+[...document.querySelectorAll(".choice")];
 
+const $ =
+id => document.getElementById(id);
 
-
-function openScreen(id){
-
-    screens.forEach(screen=>{
-        screen.classList.remove("active");
-    });
-
-
-    const target =
-    document.getElementById(id);
-
-
-    if(target){
-
-        target.classList.add("active");
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-    }
-
-}
-
-
+let selected = "";
 
 
 /* =========================
    ПЕРЕХОДЫ
 ========================= */
 
+function show(id){
 
-document.querySelectorAll(".next")
+screens.forEach(screen=>{
+
+screen.classList.toggle(
+"active",
+screen.id === id
+);
+
+});
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+   КНОПКИ NEXT
+========================= */
+
+document
+.querySelectorAll("[data-next]")
 .forEach(button=>{
-
 
 button.addEventListener("click",()=>{
 
+show(button.dataset.next);
 
-let target =
-button.dataset.target;
+});
 
-
-
-if(target==="choice"){
+});
 
 
-if(!selectedDate || !selectedTime){
+/* =========================
+   ДАТА + ВРЕМЯ
+========================= */
+
+$("toChoice").addEventListener(
+"click",
+()=>{
+
+const date =
+$("dateInput").value;
+
+const time =
+$("timeInput").value;
 
 
-document.getElementById("dateError")
-.textContent =
-"Сначала выбери дату и время ❤️";
+if(!date || !time){
 
-
-return;
-
-
-}
-
-
-}
-
-
-
-if(target==="message"){
-
-
-if(!selectedChoice){
+$("dateValidation").textContent =
+"Выбери, пожалуйста, и дату, и время ❤️";
 
 return;
 
 }
 
 
-}
+$("dateValidation").textContent = "";
 
-
-
-openScreen(target);
-
-
+show("choice");
 
 });
-
-
-});
-
-
-
 
 
 
 /* =========================
-   ДАТА
+   ВЫБОР ВАРИАНТА
 ========================= */
 
-
-const dateInput =
-document.getElementById("dateInput");
-
-
-
-dateInput.addEventListener("change",()=>{
-
-
-selectedDate =
-dateInput.value;
-
-
-document.getElementById("dateError")
-.textContent="";
-
-
-});
-
-
-
-
-
-
-
-
-/* =========================
-   ВРЕМЯ
-========================= */
-
-
-document.querySelectorAll(".time-btn")
-.forEach(button=>{
-
+choices.forEach(button=>{
 
 button.addEventListener("click",()=>{
 
+choices.forEach(item=>{
 
-document.querySelectorAll(".time-btn")
-.forEach(btn=>{
-
-btn.classList.remove("active");
+item.classList.remove("selected");
 
 });
 
+button.classList.add("selected");
+
+selected =
+button.dataset.choice;
+
+$("toMessage")
+.classList.remove("hidden");
 
 
-button.classList.add("active");
-
-
-
-selectedTime =
-button.dataset.time;
-
-
-
-});
-
-
+sparkleBurst(3);
 
 });
 
-
-
-
-
-
-
+});
 
 
 /* =========================
-   ВЫБОР ВЕЧЕРА
+   ПЕРЕХОД К СООБЩЕНИЮ
 ========================= */
 
+$("toMessage").addEventListener(
+"click",
+()=>{
 
-const choices =
-document.querySelectorAll(".choice");
+if(!selected){
 
+showError(
+"Сначала выбери вариант вечера ❤️"
+);
 
+return;
 
-const choiceNext =
-document.getElementById("choiceNext");
+}
 
-
-
-choices.forEach(choice=>{
-
-
-choice.addEventListener("click",()=>{
-
-
-choices.forEach(c=>{
-
-c.classList.remove("selected");
+show("message");
 
 });
-
-
-
-choice.classList.add("selected");
-
-
-
-selectedChoice =
-choice.dataset.choice;
-
-
-
-choiceNext.classList.remove("hidden");
-
-
-
-createBurst(choice);
-
-
-
-});
-
-
-});
-
-
-
-
-
-
-
 
 
 /* =========================
-   ТЕКСТ
+   КНОПКА НАЗАД
 ========================= */
 
+document
+.querySelectorAll("[data-back]")
+.forEach(button=>{
 
-const wish =
-document.getElementById("wish");
+button.addEventListener("click",()=>{
 
+show(button.dataset.back);
 
-const count =
-document.getElementById("count");
-
-
-
-wish.addEventListener("input",()=>{
-
-
-count.textContent =
-wish.value.length;
-
-
+});
 
 });
 
 
+/* =========================
+   СЧЁТЧИК
+========================= */
 
+$("wish").addEventListener(
+"input",
+()=>{
 
+$("count").textContent =
+$("wish").value.length;
 
-
-
+});
 
 
 /* =========================
    ОТПРАВКА
 ========================= */
 
-
-document
-.getElementById("send")
-.addEventListener("click",()=>{
-
-
-document.getElementById("resultDate")
-.textContent =
-selectedDate+" "+selectedTime;
+$("send").addEventListener(
+"click",
+async()=>{
 
 
+if(!selected){
 
-document.getElementById("resultChoice")
-.textContent =
-selectedChoice;
+showError(
+"Сначала выбери вариант вечера ❤️"
+);
+
+show("choice");
+
+return;
+
+}
 
 
+if(
+!$("dateInput").value ||
+!$("timeInput").value
+){
 
-openScreen("success");
+showError(
+"Сначала выбери дату и время ❤️"
+);
+
+show("date");
+
+return;
+
+}
 
 
+const sendButton =
+$("send");
 
-celebrate();
+
+sendButton.disabled = true;
+
+sendButton.innerHTML =
+"Отправляю твой ответ… ♥";
 
 
+const payload = {
+
+date:
+$("dateInput").value,
+
+time:
+$("timeInput").value,
+
+choice:
+selected,
+
+wish:
+$("wish").value.trim()
+
+};
+
+
+try{
+
+
+if(!GOOGLE_SCRIPT_URL){
+
+throw new Error(
+"Google Script URL отсутствует"
+);
+
+}
+
+
+await fetch(
+GOOGLE_SCRIPT_URL,
+{
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":
+"text/plain;charset=utf-8"
+},
+
+body:
+JSON.stringify(payload)
+
+}
+);
+
+
+/* =========================
+   ПОКАЗ РЕЗУЛЬТАТА
+========================= */
+
+const [
+year,
+month,
+day
+] =
+$("dateInput")
+.value
+.split("-");
+
+
+$("finalDate").textContent =
+`${day}.${month}.${year} в ${$("timeInput").value}`;
+
+
+$("finalChoice").textContent =
+selected;
+
+
+show("success");
+
+
+/*
+   Небольшая финальная анимация,
+   а не огромный поток сердечек
+*/
+
+burstHearts(7);
+
+sparkleBurst(5);
+
+
+}catch(error){
+
+console.error(
+"Ошибка отправки:",
+error
+);
+
+showError(
+"Не получилось отправить ответ. Проверь подключение."
+);
+
+sendButton.disabled = false;
+
+sendButton.innerHTML =
+'Отправить мой ответ <span>♥</span>';
+
+}
 
 });
 
 
+/* =========================
+   ОШИБКИ
+========================= */
+
+function showError(text){
+
+const error =
+$("error");
+
+error.textContent =
+text;
+
+error.style.display =
+"block";
 
 
+setTimeout(()=>{
 
+error.style.display =
+"none";
 
+},4500);
 
+}
 
 
 /* =========================
-   СЕРДЕЧКИ
+   НЕБОЛЬШИЕ СЕРДЕЧКИ
 ========================= */
 
-
 function createHeart(){
-
 
 const heart =
 document.createElement("div");
 
+heart.className =
+"float-heart";
 
-heart.innerHTML =
-Math.random()>0.5
-?
-"♥"
-:
-"♡";
-
-
-
-heart.style.position="fixed";
+heart.textContent =
+Math.random() > .25
+? "♥"
+: "♡";
 
 
 heart.style.left =
-Math.random()*100+"vw";
+(10 + Math.random()*80) + "%";
 
-
-heart.style.bottom="-30px";
-
+heart.style.bottom =
+"0px";
 
 heart.style.fontSize =
-(15+Math.random()*30)+"px";
+(13 + Math.random()*12) + "px";
 
 
-heart.style.color="#e76b92";
-
-
-heart.style.zIndex="10";
-
-
-heart.style.pointerEvents="none";
-
-
-
-document.body.appendChild(heart);
-
-
-
-
-const move =
-(Math.random()-0.5)*200;
-
-
-
-heart.animate([
-
-{
-
-transform:
-"translateY(0) rotate(0deg)",
-
-opacity:1
-
-},
-
-{
-
-transform:
-`translate(${move}px,-110vh) rotate(360deg)`,
-
-opacity:0
-
-}
-
-],{
-
-
-duration:
-5000+Math.random()*4000,
-
-
-easing:"ease-out"
-
-
-});
-
-
+$("hearts").appendChild(
+heart
+);
 
 
 setTimeout(()=>{
 
 heart.remove();
 
-},9000);
-
-
+},7000);
 
 }
 
 
-
-setInterval(createHeart,800);
-
-
-
-
-
-
-
-
-
-function createBurst(element){
-
-
-const rect =
-element.getBoundingClientRect();
-
-
-
-for(let i=0;i<8;i++){
-
-
-let heart =
-document.createElement("div");
-
-
-heart.textContent="♥";
-
-
-heart.style.position="fixed";
-
-
-heart.style.left =
-rect.left+
-rect.width/2+
-"px";
-
-
-heart.style.top =
-rect.top+
-20+
-"px";
-
-
-heart.style.color="#e76b92";
-
-
-heart.style.zIndex=20;
-
-
-
-document.body.appendChild(heart);
-
-
-
-let x =
-(Math.random()-0.5)*150;
-
-
-let y =
-(Math.random()-0.5)*150;
-
-
-
-
-heart.animate([
-
-{
-transform:"scale(0)"
-},
-
-{
-
-transform:
-`translate(${x}px,${y}px) scale(1)`
-
-}
-
-],{
-
-
-duration:700
-
-});
-
-
-
-setTimeout(()=>heart.remove(),800);
-
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-function celebrate(){
-
-
-for(let i=0;i<50;i++){
-
-
-setTimeout(createHeart,i*40);
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
+/*
+   Было слишком много.
+   Теперь только одно сердце примерно
+   каждые 2.5 секунды.
+*/
+
+setInterval(
+createHeart,
+2500
+);
 
 
 /* =========================
-   CANVAS
+   СЕРДЕЧКИ ПРИ ВЫБОРЕ
 ========================= */
 
+function burstHearts(count=4){
 
-const canvas =
-document.getElementById("magicCanvas");
+for(let i=0;i<count;i++){
 
+setTimeout(()=>{
 
-const ctx =
-canvas.getContext("2d");
+const heart =
+document.createElement("div");
 
+heart.className =
+"float-heart";
 
+heart.textContent =
+Math.random() > .3
+? "♥"
+: "♡";
 
-let particles=[];
+heart.style.left =
+(25 + Math.random()*50) + "%";
 
+heart.style.bottom =
+(15 + Math.random()*20) + "%";
 
-
-function resize(){
-
-
-canvas.width =
-window.innerWidth;
-
-
-canvas.height =
-window.innerHeight;
-
-
-}
-
-
-resize();
+heart.style.fontSize =
+(13 + Math.random()*10) + "px";
 
 
-window.addEventListener(
-"resize",
-resize
+$("hearts").appendChild(
+heart
 );
 
 
+setTimeout(()=>{
 
+heart.remove();
 
-for(let i=0;i<80;i++){
+},7000);
 
+},i*100);
 
-particles.push({
-
-x:Math.random()*window.innerWidth,
-
-y:Math.random()*window.innerHeight,
-
-size:Math.random()*2+1,
-
-speed:Math.random()*0.5+0.1
-
-});
-
+}
 
 }
 
 
+/* =========================
+   ИСКРЫ
+========================= */
+
+function sparkleBurst(count=3){
+
+for(let i=0;i<count;i++){
+
+setTimeout(()=>{
+
+const spark =
+document.createElement("div");
+
+spark.className =
+"spark";
+
+spark.textContent =
+Math.random() > .5
+? "✦"
+: "✧";
+
+spark.style.left =
+(20 + Math.random()*60) + "%";
+
+spark.style.top =
+(20 + Math.random()*60) + "%";
 
 
-
-function animate(){
-
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
+$("sparkles").appendChild(
+spark
 );
 
 
+setTimeout(()=>{
 
-particles.forEach(p=>{
+spark.remove();
 
+},2200);
 
-p.y-=p.speed;
-
-
-
-if(p.y<0){
-
-p.y=canvas.height;
+},i*80);
 
 }
 
-
-
-ctx.beginPath();
-
-
-ctx.arc(
-p.x,
-p.y,
-p.size,
-0,
-Math.PI*2
-);
-
-
-
-ctx.fillStyle=
-"rgba(255,255,255,.8)";
-
-
-
-ctx.fill();
-
-
-
-});
-
-
-
-requestAnimationFrame(animate);
-
-
-
 }
-
-
-animate();
-
-
 
 });
