@@ -121,9 +121,11 @@ document.getElementById("dateDisplay");
 
 datePicker.addEventListener("click",()=>{
 
-
-dateInput.click();
-
+    if(dateInput.showPicker){
+        dateInput.showPicker();
+    }else{
+        dateInput.click();
+    }
 
 });
 
