@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для тебя ❤️</title>
+  <meta name="theme-color" content="#fff4f6">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-1"></div>
+  <div class="ambient ambient-2"></div>
+  <div id="hearts"></div>
+
+  <main class="app">
+    <section class="screen active" id="welcome">
+      <div class="card welcome-card">
+        <div class="eyebrow">для самого любимого человека</div>
+        <div class="big-heart">♡</div>
+        <h1>У меня для тебя<br><span>кое-что особенное</span></h1>
+        <p class="lead">Ещё один год нашей истории. И я хочу, чтобы наша годовщина стала маленьким воспоминанием, к которому мы будем возвращаться с улыбкой.</p>
+        <button class="primary" data-next="choice">Открыть приглашение <span>♡</span></button>
+        <div class="tiny">только для тебя</div>
+      </div>
+    </section>
+
+    <section class="screen" id="choice">
+      <div class="card">
+        <div class="progress"><i></i><i class="on"></i><i></i></div>
+        <div class="eyebrow">наша годовщина</div>
+        <h2>Как ты хочешь<br><span>провести этот вечер?</span></h2>
+        <p class="muted">Выбирай сердцем. А остальное я постараюсь сделать особенным.</p>
+
+        <div class="choices">
+          <button class="choice" data-choice="Романтичный вечер дома">
+            <span class="choice-icon">🏠</span>
+            <span><b>Тёплый вечер дома</b><small>Свечи, вкусный ужин, фильм и только мы.</small></span>
+            <em>♡</em>
+          </button>
+          <button class="choice" data-choice="Ужин в ресторане">
+            <span class="choice-icon">🍷</span>
+            <span><b>Ужин в ресторане</b><small>Красивый вечер, вкусная еда и немного нарядности.</small></span>
+            <em>♡</em>
+          </button>
+          <button class="choice" data-choice="Вечерняя прогулка">
+            <span class="choice-icon">🌙</span>
+            <span><b>Вечерняя прогулка</b><small>Гулять, разговаривать и наслаждаться временем вдвоём.</small></span>
+            <em>♡</em>
+          </button>
+        </div>
+
+        <button class="secondary hidden" id="toMessage">Продолжить <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="screen" id="message">
+      <div class="card">
+        <div class="progress"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        <div class="eyebrow">маленькая просьба</div>
+        <h2>А теперь скажи<br><span>мне что-нибудь от себя ♡</span></h2>
+        <p class="muted">Можешь оставить пожелание, идею или просто несколько слов. Даже одно сердечко подойдёт.</p>
+        <textarea id="wish" maxlength="500" placeholder="Напиши мне здесь..."></textarea>
+        <div class="counter"><span id="count">0</span>/500</div>
+        <input id="name" maxlength="80" placeholder="Твоё имя (необязательно)">
+        <button class="primary" id="send">Отправить мой ответ <span>♡</span></button>
+        <button class="back" data-back="choice">← изменить выбор</button>
+      </div>
+    </section>
+
+    <section class="screen" id="success">
+      <div class="card success-card">
+        <div class="success-heart">♥</div>
+        <div class="eyebrow">ответ получен</div>
+        <h2>Спасибо, любимая.</h2>
+        <p class="lead">Теперь я знаю, какой вечер ты выбрала. А дальше начинается моя маленькая часть сюрприза.</p>
+        <div class="answer-box">
+          <small>Твой выбор</small>
+          <strong id="finalChoice"></strong>
+        </div>
+        <p class="quote">«Самое ценное — не место и не планы. Самое ценное — быть рядом.»</p>
+        <div class="signature">С любовью ❤️</div>
+      </div>
+    </section>
+
+    <div class="error" id="error"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
