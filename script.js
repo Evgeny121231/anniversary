@@ -1,99 +1,10 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwaalC-RpVoI6fq-_9xwXH9C2ufsQydOQweowMMt0_qJlNy97cits6CqiP7QZFRfDf7Q/exec';
-
-const screens = [...document.querySelectorAll('.screen')];
-const choices = [...document.querySelectorAll('.choice')];
-const toMessage = document.getElementById('toMessage');
-const wish = document.getElementById('wish');
-const nameInput = document.getElementById('name');
-const count = document.getElementById('count');
-const send = document.getElementById('send');
-const errorBox = document.getElementById('error');
-const finalChoice = document.getElementById('finalChoice');
-
-let selectedChoice = '';
-
-function show(id){
-  screens.forEach(s => s.classList.toggle('active', s.id === id));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-document.querySelectorAll('[data-next]').forEach(btn => {
-  btn.addEventListener('click', () => show(btn.dataset.next));
-});
-
-document.querySelectorAll('[data-back]').forEach(btn => {
-  btn.addEventListener('click', () => show(btn.dataset.back));
-});
-
-choices.forEach(btn => {
-  btn.addEventListener('click', () => {
-    choices.forEach(c => c.classList.remove('selected'));
-    btn.classList.add('selected');
-    selectedChoice = btn.dataset.choice;
-    toMessage.classList.remove('hidden');
-    burstHearts(7);
-  });
-});
-
-toMessage.addEventListener('click', () => show('message'));
-
-wish.addEventListener('input', () => count.textContent = wish.value.length);
-
-send.addEventListener('click', async () => {
-  if(!selectedChoice){
-    showError('Сначала выбери вариант вечера ❤️');
-    show('choice');
-    return;
-  }
-
-  send.disabled = true;
-  send.innerHTML = 'Отправляю твой ответ… ♥';
-
-  const payload = {
-    choice: selectedChoice,
-    wish: wish.value.trim(),
-    name: nameInput.value.trim()
-  };
-
-  try {
-    if (typeof GOOGLE_SCRIPT_URL === 'undefined' || !GOOGLE_SCRIPT_URL) {
-      throw new Error('Сайт ещё не подключён к Google Apps Script.');
-    }
-
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify(payload)
-    });
-
-    finalChoice.textContent = selectedChoice;
-    show('success');
-    burstHearts(24);
-  } catch (e) {
-    showError('Не получилось отправить ответ. Проверь подключение сайта к Google Apps Script.');
-    send.disabled = false;
-    send.innerHTML = 'Отправить мой ответ <span>♡</span>';
-  }
-});
-
-function showError(text){
-  errorBox.textContent = text;
-  errorBox.style.display = 'block';
-  setTimeout(() => errorBox.style.display = 'none', 4500);
-}
-
-function burstHearts(n){
-  const box = document.getElementById('hearts');
-  for(let i=0;i<n;i++){
-    const el = document.createElement('div');
-    el.className='float-heart';
-    el.textContent = Math.random() > .25 ? '♥' : '♡';
-    el.style.left = (10 + Math.random()*80) + '%';
-    el.style.bottom = (8 + Math.random()*20) + '%';
-    el.style.animationDelay = (Math.random()*.5) + 's';
-    el.style.fontSize = (14 + Math.random()*18) + 'px';
-    box.appendChild(el);
-    setTimeout(()=>el.remove(),6500);
-  }
-}
+const GOOGLE_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzvxIYU63ttbgPl5JinEPN8btZB4he2D6rtVoAS6IqZmTfuSPco5opBoqGXL04PW2mY/exec';const screens=[...document.querySelectorAll('.screen')],choices=[...document.querySelectorAll('.choice')];let selected='';const $=id=>document.getElementById(id);
+function show(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));scrollTo({top:0,behavior:'smooth'});setTimeout(sparkleBurst,120)}
+document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>{show(b.dataset.next);sparkleBurst()});
+$('toChoice').onclick=()=>{if(!$('dateInput').value||!$('timeInput').value){$('dateValidation').textContent='Выбери, пожалуйста, и дату, и время ❤️';sparkleBurst(5);return}$('dateValidation').textContent='';show('choice')};
+choices.forEach(b=>b.onclick=()=>{choices.forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selected=b.dataset.choice;$('toMessage').classList.remove('hidden');burstHearts(8);sparkleBurst(10)});
+$('toMessage').onclick=()=>show('message');$('wish').oninput=()=>$('count').textContent=$('wish').value.length;
+$('send').onclick=async()=>{if(!selected){showError('Сначала выбери вариант вечера ❤️');show('choice');return}if(!$('dateInput').value||!$('timeInput').value){showError('Сначала выбери дату и время ❤️');show('date');return}$('send').disabled=true;$('send').textContent='Отправляю твой ответ… ♥';const payload={date:$('dateInput').value,time:$('timeInput').value,choice:selected,wish:$('wish').value.trim()};try{if(!GOOGLE_SCRIPT_URL)throw Error();await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});const[y,m,d]=$('dateInput').value.split('-');$('finalDate').textContent=`${d}.${m}.${y} в ${$('timeInput').value}`;$('finalChoice').textContent=selected;show('success');burstHearts(28);sparkleBurst(20)}catch(e){showError('Не получилось отправить ответ. Проверь подключение Google Apps Script.');$('send').disabled=false;$('send').innerHTML='Отправить мой ответ <span>♥</span>'}};
+function showError(t){$('error').textContent=t;$('error').style.display='block';setTimeout(()=>$('error').style.display='none',4500)}
+function burstHearts(n=8){for(let i=0;i<n;i++){let e=document.createElement('div');e.className='float-heart';e.textContent=Math.random()>.25?'♥':'♡';e.style.left=8+Math.random()*84+'%';e.style.bottom=6+Math.random()*20+'%';e.style.animationDelay=Math.random()*.55+'s';e.style.fontSize=13+Math.random()*17+'px';$('hearts').appendChild(e);setTimeout(()=>e.remove(),7000)}}
+function sparkleBurst(n=7){for(let i=0;i<n;i++){let e=document.createElement('div');e.className='spark';e.textContent=Math.random()>.5?'✦':'✧';e.style.left=12+Math.random()*76+'%';e.style.top=18+Math.random()*60+'%';e.style.animationDelay=Math.random()*.3+'s';$('sparkles').appendChild(e);setTimeout(()=>e.remove(),2600)}}
