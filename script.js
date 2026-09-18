@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'anniversary_invitation_ready';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwaalC-RpVoI6fq-_9xwXH9C2ufsQydOQweowMMt0_qJlNy97cits6CqiP7QZFRfDf7Q/exec';
 
 const screens = [...document.querySelectorAll('.screen')];
 const choices = [...document.querySelectorAll('.choice')];
