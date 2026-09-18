@@ -1,57 +1,43 @@
-/* =========================================================
-   LOVE INVITATION SCRIPT
-   Cinematic animations + logic
-========================================================= */
-
-
 document.addEventListener("DOMContentLoaded",()=>{
 
+
+/* ===============================
+   VARIABLES
+================================ */
 
 const screens =
 document.querySelectorAll(".screen");
 
 
-const heartsContainer =
-document.getElementById("hearts");
-
-
-let selectedChoice = "";
-let selectedDate = "";
-let selectedTime = "";
+let chosenDate="";
+let chosenTime="";
+let chosenChoice="";
 
 
 
-/* ==========================
+/* ===============================
    SCREEN SWITCH
-========================== */
+================================ */
 
 
-function openScreen(id){
+function showScreen(id){
 
-    screens.forEach(s=>{
-
-        s.classList.remove("active");
-
+    screens.forEach(screen=>{
+        screen.classList.remove("active");
     });
 
 
-    const target =
+    const next =
     document.getElementById(id);
 
 
-    if(target){
+    if(next){
 
         setTimeout(()=>{
 
-            target.classList.add("active");
+            next.classList.add("active");
 
-            window.scrollTo({
-                top:0,
-                behavior:"smooth"
-            });
-
-
-        },120);
+        },100);
 
     }
 
@@ -60,16 +46,50 @@ function openScreen(id){
 
 
 
-document.querySelectorAll("[data-next]")
+document.querySelectorAll(".next")
 .forEach(btn=>{
 
 
 btn.addEventListener("click",()=>{
 
 
-openScreen(
-btn.dataset.next
-);
+const target =
+btn.dataset.screen;
+
+
+if(target==="choice"){
+
+
+if(!chosenDate || !chosenTime){
+
+document.getElementById("dateError")
+.textContent =
+"Выбери дату и время ❤️";
+
+
+return;
+
+}
+
+
+}
+
+
+if(target==="message"){
+
+
+if(!chosenChoice){
+
+return;
+
+}
+
+
+}
+
+
+
+showScreen(target);
 
 
 });
@@ -80,30 +100,10 @@ btn.dataset.next
 
 
 
-document.querySelectorAll("[data-back]")
-.forEach(btn=>{
 
-
-btn.addEventListener("click",()=>{
-
-
-openScreen(
-btn.dataset.back
-);
-
-
-});
-
-
-});
-
-
-
-
-
-/* ==========================
-   DATE PICKER
-========================== */
+/* ===============================
+   DATE
+================================ */
 
 
 const datePicker =
@@ -122,32 +122,28 @@ document.getElementById("dateDisplay");
 datePicker.addEventListener("click",()=>{
 
 
-dateInput.showPicker
-?
-dateInput.showPicker()
-:
 dateInput.click();
-
 
 
 });
 
 
 
+
+
 dateInput.addEventListener("change",()=>{
 
 
-selectedDate =
+chosenDate =
 dateInput.value;
 
 
 
-if(selectedDate){
+if(chosenDate){
 
 
-let d =
-new Date(selectedDate);
-
+const d =
+new Date(chosenDate);
 
 
 dateDisplay.textContent =
@@ -164,95 +160,45 @@ year:"numeric"
 }
 
 
+
 });
 
 
 
 
 
-/* ==========================
-   TIME SELECT
-========================== */
+/* ===============================
+   TIME
+================================ */
 
 
-document.querySelectorAll(".time-grid button")
-.forEach(btn=>{
+document.querySelectorAll("[data-time]")
+.forEach(button=>{
 
 
-btn.addEventListener("click",()=>{
+button.addEventListener("click",()=>{
 
 
 document
-.querySelectorAll(".time-grid button")
-.forEach(b=>
-b.classList.remove("active")
-);
+.querySelectorAll("[data-time]")
+.forEach(b=>{
 
-
-
-btn.classList.add("active");
-
-
-selectedTime =
-btn.dataset.time;
-
-
-document.getElementById(
-"timeInput"
-).value =
-selectedTime;
-
-
-
-});
-
+b.classList.remove("active");
 
 });
 
 
 
+button.classList.add("active");
+
+
+chosenTime =
+button.dataset.time;
 
 
 
-/* ==========================
-   NEXT TO CHOICE
-========================== */
+});
 
-
-document
-.getElementById("toChoice")
-.addEventListener("click",()=>{
-
-
-const validation =
-document.getElementById(
-"dateValidation"
-);
-
-
-
-if(!selectedDate ||
-!selectedTime){
-
-
-validation.textContent =
-"Сначала выбери дату и время ❤️";
-
-
-validation.style.display="block";
-
-
-return;
-
-
-}
-
-
-
-validation.textContent="";
-
-
-openScreen("choice");
 
 
 });
@@ -261,49 +207,50 @@ openScreen("choice");
 
 
 
-/* ==========================
-   CHOICES
-========================== */
+
+/* ===============================
+   CHOICE
+================================ */
 
 
-const choiceButtons =
+const choices =
 document.querySelectorAll(".choice");
 
 
-const toMessage =
-document.getElementById("toMessage");
+const messageButton =
+document.getElementById("messageButton");
 
 
 
-choiceButtons.forEach(btn=>{
+choices.forEach(choice=>{
 
 
-btn.addEventListener("click",()=>{
+choice.addEventListener("click",()=>{
 
 
-choiceButtons.forEach(b=>
-b.classList.remove("selected")
-);
+choices.forEach(c=>{
 
+c.classList.remove("selected");
 
-
-btn.classList.add("selected");
-
-
-selectedChoice =
-btn.dataset.choice;
+});
 
 
 
-toMessage.classList.remove(
+choice.classList.add("selected");
+
+
+chosenChoice =
+choice.dataset.choice;
+
+
+
+messageButton.classList.remove(
 "hidden"
 );
 
 
 
-heartBurst(
-btn
-);
+heartBurst(choice);
 
 
 
@@ -317,41 +264,25 @@ btn
 
 
 
-toMessage.addEventListener("click",()=>{
-
-
-openScreen(
-"message"
-);
-
-
-});
-
-
-
-
-
-
-
-/* ==========================
+/* ===============================
    TEXT COUNTER
-========================== */
+================================ */
 
 
-const wish =
+const textarea =
 document.getElementById("wish");
 
 
-const count =
+const counter =
 document.getElementById("count");
 
 
 
-wish.addEventListener("input",()=>{
+textarea.addEventListener("input",()=>{
 
 
-count.textContent =
-wish.value.length;
+counter.textContent =
+textarea.value.length;
 
 
 });
@@ -362,9 +293,9 @@ wish.value.length;
 
 
 
-/* ==========================
+/* ===============================
    SEND
-========================== */
+================================ */
 
 
 document
@@ -372,33 +303,19 @@ document
 .addEventListener("click",()=>{
 
 
-const finalDate =
-document.getElementById(
-"finalDate"
-);
-
-
-const finalChoice =
-document.getElementById(
-"finalChoice"
-);
+document.getElementById("finalDate")
+.textContent =
+`${chosenDate} ${chosenTime}`;
 
 
 
-finalDate.textContent =
-`${selectedDate} ${selectedTime}`;
+document.getElementById("finalChoice")
+.textContent =
+chosenChoice;
 
 
 
-finalChoice.textContent =
-selectedChoice;
-
-
-
-openScreen(
-"success"
-);
-
+showScreen("success");
 
 
 celebrate();
@@ -413,11 +330,9 @@ celebrate();
 
 
 
-
-/* =========================================================
-   HEART PARTICLES
-========================================================= */
-
+/* ===============================
+   HEART EFFECTS
+================================ */
 
 
 function createHeart(){
@@ -427,8 +342,8 @@ const heart =
 document.createElement("div");
 
 
-heart.innerHTML =
-Math.random()>.5
+heart.textContent =
+Math.random()>0.5
 ?
 "♥"
 :
@@ -443,60 +358,31 @@ Math.random()*100+"vw";
 
 
 heart.style.bottom =
-"-30px";
+"-20px";
 
 
 heart.style.fontSize =
-(
 15+
-Math.random()*35
-)
-+"px";
+Math.random()*30+
+"px";
 
 
 heart.style.color =
-[
-"#ff8fab",
-"#ffb3c6",
-"#d86b8a",
-"#ffffff"
-]
-[
-Math.floor(
-Math.random()*4
-)
-];
+"#e86f96";
 
 
-
-heart.style.opacity =
-0.5+
-Math.random()*0.5;
-
+heart.style.zIndex=10;
 
 
 heart.style.pointerEvents="none";
 
 
-heart.style.zIndex="3";
+document.body.appendChild(heart);
 
 
 
-document.body.appendChild(
-heart
-);
-
-
-
-const duration =
-6000+
-Math.random()*7000;
-
-
-
-const drift =
--100+
-Math.random()*200;
+const x =
+(Math.random()-0.5)*200;
 
 
 
@@ -504,24 +390,29 @@ heart.animate([
 
 {
 transform:
-"translate(0,0) rotate(0deg)"
+"translate(0,0) rotate(0deg)",
+opacity:1
 },
+
 
 {
 transform:
-`translate(${drift}px,-120vh) rotate(360deg)`
+`translate(${x}px,-110vh) rotate(360deg)`,
+opacity:0
 }
+
 
 ],
 {
 
-duration:duration,
+duration:
+5000+
+Math.random()*4000,
 
 easing:
 "ease-out"
 
-}
-);
+});
 
 
 
@@ -529,27 +420,19 @@ setTimeout(()=>{
 
 heart.remove();
 
-},duration);
+},9000);
+
 
 
 }
 
 
 
-setInterval(
-createHeart,
-600
-);
+setInterval(createHeart,900);
 
 
 
 
-
-
-
-/* ==========================
-   HEART CLICK BURST
-========================== */
 
 
 function heartBurst(el){
@@ -560,7 +443,7 @@ el.getBoundingClientRect();
 
 
 
-for(let i=0;i<8;i++){
+for(let i=0;i<10;i++){
 
 
 const h =
@@ -585,7 +468,7 @@ rect.top+
 "px";
 
 
-h.style.color="#e47796";
+h.style.color="#e86f96";
 
 
 h.style.zIndex=20;
@@ -595,12 +478,12 @@ document.body.appendChild(h);
 
 
 
-let x =
-(Math.random()-0.5)*200;
+const x =
+(Math.random()-0.5)*150;
 
 
-let y =
-(Math.random()-0.5)*200;
+const y =
+(Math.random()-0.5)*150;
 
 
 
@@ -616,54 +499,42 @@ transform:
 }
 
 ],
-
 {
-duration:700,
-easing:"cubic-bezier(.2,.8,.2,1)"
-}
 
-);
+duration:700
 
+});
 
 
-setTimeout(()=>
-h.remove(),
-800
-);
 
-
-}
+setTimeout(()=>h.remove(),800);
 
 
 }
 
 
 
+}
 
 
-
-
-
-/* ==========================
-   SUCCESS EFFECT
-========================== */
 
 
 function celebrate(){
 
 
-for(let i=0;i<80;i++){
+for(let i=0;i<60;i++){
 
 
 setTimeout(
 createHeart,
-i*30
+i*40
 );
 
 
 }
 
 
+
 }
 
 
@@ -673,21 +544,17 @@ i*30
 
 
 
-/* =========================================================
-   CANVAS MAGIC BACKGROUND
-========================================================= */
+/* ===============================
+   CANVAS PARTICLES
+================================ */
 
 
 const canvas =
-document.getElementById(
-"magicCanvas"
-);
+document.getElementById("magicCanvas");
 
 
 const ctx =
-canvas.getContext(
-"2d"
-);
+canvas.getContext("2d");
 
 
 
@@ -704,9 +571,7 @@ window.innerWidth;
 canvas.height =
 window.innerHeight;
 
-
 }
-
 
 
 resize();
@@ -721,27 +586,24 @@ resize
 
 
 
-for(let i=0;i<90;i++){
+for(let i=0;i<80;i++){
 
 
 particles.push({
 
 x:
-Math.random()*canvas.width,
+Math.random()*innerWidth,
 
 y:
-Math.random()*canvas.height,
-
+Math.random()*innerHeight,
 
 r:
 Math.random()*2+1,
 
-
 speed:
-Math.random()*0.4+0.1,
+Math.random()+0.2,
 
-
-alpha:
+opacity:
 Math.random()
 
 });
@@ -753,7 +615,8 @@ Math.random()
 
 
 
-function animate(){
+
+function draw(){
 
 
 ctx.clearRect(
@@ -768,13 +631,15 @@ canvas.height
 particles.forEach(p=>{
 
 
-p.y -= p.speed;
+p.y-=p.speed;
 
 
+if(p.y<0){
 
-if(p.y<0)
-p.y =
+p.y=
 canvas.height;
+
+}
 
 
 
@@ -792,85 +657,27 @@ Math.PI*2
 
 
 ctx.fillStyle =
-`rgba(255,255,255,${p.alpha})`;
-
+`rgba(255,255,255,${p.opacity})`;
 
 
 ctx.fill();
 
 
+
 });
 
 
 
-requestAnimationFrame(
-animate
-);
+requestAnimationFrame(draw);
 
 
 }
 
 
-animate();
+draw();
 
 
 
-
-
-
-
-/* ==========================
-   MOUSE GLASS EFFECT
-========================== */
-
-
-document.querySelectorAll(".card")
-.forEach(card=>{
-
-
-card.addEventListener(
-"mousemove",
-e=>{
-
-
-const r =
-card.getBoundingClientRect();
-
-
-const x =
-(e.clientX-r.left)/
-r.width-.5;
-
-
-const y =
-(e.clientY-r.top)/
-r.height-.5;
-
-
-
-card.style.transform =
-`
-perspective(900px)
-rotateX(${-y*5}deg)
-rotateY(${x*5}deg)
-`;
-
-
-
-});
-
-
-card.addEventListener(
-"mouseleave",
-()=>{
-
-
-card.style.transform="";
-
-});
-
-
-});
 
 
 
