@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Для тебя ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Наш вечер ❤️</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,8 +11,9 @@
 
 <canvas id="magicCanvas"></canvas>
 
-<div class="ambient a1"></div>
-<div class="ambient a2"></div>
+<div class="ambient one"></div>
+<div class="ambient two"></div>
+
 
 <main class="app">
 
@@ -21,13 +22,15 @@
 
 <div class="card">
 
-<div class="eyebrow">
-маленькое приглашение только для тебя
+<div class="top-text">
+маленькое приглашение только для тебя ❤️
 </div>
 
-<div class="heart">
+
+<div class="main-heart">
 ♥
 </div>
+
 
 <h1>
 Давай устроим<br>
@@ -35,14 +38,14 @@
 </h1>
 
 
-<p class="lead">
+<p>
 Ещё один год нашей истории.
-Хочу подарить нам вечер только для нас ❤️
+Хочу подарить нам время только для нас.
 </p>
 
 
-<button class="primary next" data-screen="date">
-Открыть приглашение ♥
+<button class="main-btn next" data-target="date">
+Открыть приглашение ❤️
 </button>
 
 
@@ -53,12 +56,13 @@
 
 
 
+
 <section class="screen" id="date">
 
 <div class="card">
 
-<div class="eyebrow">
-шаг 1 из 3
+<div class="step">
+Шаг 1 из 3
 </div>
 
 
@@ -69,53 +73,84 @@
 
 
 
-<div class="picker">
+<div class="date-box">
 
-<div>
+<div class="icon">
 📅
 </div>
 
+
 <div>
 
-<small>
-Дата
-</small>
+<label>
+Выбери дату
+</label>
 
-<input id="dateInput" type="date">
+
+<input 
+type="date"
+id="dateInput"
+>
+
 
 </div>
 
 </div>
 
 
-<input id="dateInput" type="date">
 
 
 
-<div class="time-title">
-🌙 Время
+<div class="step-title">
+Выбери время
 </div>
 
 
 
-<div class="time-grid">
-
-<button data-time="18:00">18:00</button>
-<button data-time="18:30">18:30</button>
-<button data-time="19:00">19:00</button>
-<button data-time="19:30">19:30</button>
-<button data-time="20:00">20:00</button>
-<button data-time="20:30">20:30</button>
-
-</div>
+<div class="time-list">
 
 
-<button class="secondary next" data-screen="choice">
-Дальше →
+<button class="time-btn" data-time="18:00">
+18:00
 </button>
 
 
-<p id="dateError"></p>
+<button class="time-btn" data-time="18:30">
+18:30
+</button>
+
+
+<button class="time-btn" data-time="19:00">
+19:00
+</button>
+
+
+<button class="time-btn" data-time="19:30">
+19:30
+</button>
+
+
+<button class="time-btn" data-time="20:00">
+20:00
+</button>
+
+
+<button class="time-btn" data-time="20:30">
+20:30
+</button>
+
+
+</div>
+
+
+
+<div class="error" id="dateError"></div>
+
+
+
+<button class="main-btn next" data-target="choice">
+Дальше →
+</button>
 
 
 </div>
@@ -126,12 +161,16 @@
 
 
 
+
+
 <section class="screen" id="choice">
+
 
 <div class="card">
 
-<div class="eyebrow">
-шаг 2 из 3
+
+<div class="step">
+Шаг 2 из 3
 </div>
 
 
@@ -141,22 +180,28 @@
 </h2>
 
 
+
+
 <div class="choices">
 
 
 <button class="choice" data-choice="Ужин дома при свечах">
 
+<span class="emoji">
 🕯️
+</span>
 
 <div>
-<b>Ужин дома при свечах</b>
+
+<b>
+Ужин дома при свечах
+</b>
+
 <small>
-Уют, музыка и только мы
+Уют, музыка и время вдвоём
 </small>
+
 </div>
-
-♡
-
 
 </button>
 
@@ -165,70 +210,95 @@
 
 <button class="choice" data-choice="Ресторан">
 
+<span class="emoji">
 🥂
+</span>
 
 <div>
-<b>Красивый ужин в ресторане</b>
+
+<b>
+Красивый ужин в ресторане
+</b>
+
 <small>
 Особенный вечер
 </small>
+
 </div>
 
-♡
-
-
 </button>
+
 
 
 
 
 <button class="choice" data-choice="Прогулка">
 
+<span class="emoji">
 🌙
+</span>
 
 <div>
-<b>Прогулка вдвоём</b>
+
+<b>
+Прогулка вдвоём
+</b>
+
 <small>
-Огни города и разговоры
+Город, разговоры и мы
 </small>
+
 </div>
 
-♡
-
-
 </button>
+
 
 
 
 
 <button class="choice" data-choice="Сюрприз">
 
+<span class="emoji">
 💌
+</span>
 
 <div>
-<b>Сюрприз от меня</b>
+
+<b>
+Сюрприз от меня
+</b>
+
 <small>
-Просто доверься
+Просто доверься мне
 </small>
+
 </div>
-
-♡
-
 
 </button>
 
 
+
 </div>
 
 
-<button class="secondary next hidden" id="messageButton" data-screen="message">
+
+
+<button 
+class="main-btn hidden next"
+id="choiceNext"
+data-target="message">
+
 Продолжить →
+
 </button>
 
 
 </div>
+
 
 </section>
+
+
 
 
 
@@ -237,11 +307,14 @@
 
 <section class="screen" id="message">
 
+
 <div class="card">
 
-<div class="eyebrow">
-последний вопрос
+
+<div class="step">
+Шаг 3 из 3
 </div>
+
 
 
 <h2>
@@ -249,25 +322,43 @@
 </h2>
 
 
-<textarea id="wish"
+
+<textarea
+id="wish"
+maxlength="500"
 placeholder="Напиши мне..."
-maxlength="500"></textarea>
+></textarea>
 
 
-<div>
-<span id="count">0</span>/500
+
+<div class="counter">
+
+<span id="count">
+0
+</span>
+/
+500
+
 </div>
 
 
 
-<button class="primary" id="send">
-Отправить ♥
+<button 
+class="main-btn"
+id="send">
+
+Отправить ❤️
+
 </button>
 
 
+
 </div>
 
+
 </section>
+
+
 
 
 
@@ -276,11 +367,14 @@ maxlength="500"></textarea>
 
 <section class="screen" id="success">
 
-<div class="card">
 
-<div class="heart big">
+<div class="card success">
+
+
+<div class="main-heart">
 ♥
 </div>
+
 
 
 <h2>
@@ -288,32 +382,44 @@ maxlength="500"></textarea>
 </h2>
 
 
-<p class="lead">
+
+<p>
 Я всё получил.
 </p>
 
 
-<div class="answer">
 
-<strong id="finalDate"></strong>
+<div class="result">
+
+Дата:
+
+<strong id="resultDate"></strong>
+
+
+</div>
+
+
+
+<div class="result">
+
+Вечер:
+
+<strong id="resultChoice"></strong>
+
 
 </div>
 
 
-<div class="answer">
-
-<strong id="finalChoice"></strong>
 
 </div>
 
-
-</div>
 
 </section>
 
 
 
 </main>
+
 
 
 <script src="script.js"></script>
