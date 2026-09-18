@@ -1,16 +1,349 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fff1f5"><title>Для тебя ❤️</title><link rel="stylesheet" href="style.css"></head><body>
-<div class="ambient a1"></div><div class="ambient a2"></div><div class="glow g1"></div><div class="glow g2"></div><div id="hearts"></div><div id="sparkles"></div>
-<main class="app">
-<section class="screen active" id="welcome"><div class="card hero"><div class="eyebrow">маленькое приглашение только для тебя</div><div class="orbit"><span>♥</span><i>✦</i><b>♡</b></div><h1>Давай устроим<br><span>наш особенный вечер</span></h1><p class="lead">Ещё один год нашей истории. И мне хочется подарить нам вечер, который будет только нашим — без спешки, лишних дел и всего остального мира.</p><button class="primary" data-next="date">Открыть приглашение <span>♥</span></button><div class="hint">там тебя ждёт маленький выбор ✨</div></div></section>
-<section class="screen" id="date"><div class="card"><div class="progress"><i class="on"></i><i></i><i></i></div><div class="eyebrow">шаг 1 из 3</div><h2>Когда устроим<br><span>наш вечер?</span></h2><p class="muted">Выбери день и время, когда тебе будет приятнее всего. Я подстрою всё остальное ❤️</p><label>📅 Дата<input id="dateInput" type="date"></label><label>🕰️ Время<input id="timeInput" type="time"></label><button class="secondary" id="toChoice">Дальше — выбрать наш вечер →</button><p class="validation" id="dateValidation"></p></div></section>
-<section class="screen" id="choice"><div class="card"><div class="progress"><i class="on"></i><i class="on"></i><i></i></div><div class="eyebrow">шаг 2 из 3</div><h2>Какой вечер<br><span>тебе хочется?</span></h2><p class="muted">Выбирай тот вариант, который сейчас хочется больше всего. ❤️</p><div class="choices">
-<button class="choice" data-choice="Ужин дома при свечах"><span class="icon">🕯️</span><span><b>Ужин дома при свечах</b><small>Свечи, любимая музыка, вкусный ужин и уютный вечер только вдвоём.</small></span><em>♡</em></button>
-<button class="choice" data-choice="Красивый ужин в ресторане"><span class="icon">🥂</span><span><b>Красивый ужин в ресторане</b><small>Нарядиться, вкусно поужинать и провести вечер немного красивее обычного.</small></span><em>♡</em></button>
-<button class="choice" data-choice="Вечерняя прогулка вдвоём"><span class="icon">🌙</span><span><b>Вечерняя прогулка вдвоём</b><small>Огни города, разговоры и время, которое принадлежит только нам.</small></span><em>♡</em></button>
-<button class="choice" data-choice="Уютный вечер: купить всё любимое домой"><span class="icon">🛍️</span><span><b>Закупимся всем любимым домой</b><small>Выберем вкусняшки, напитки и всё, что захочется, а потом устроим идеальный уютный вечер.</small></span><em>♡</em></button>
-<button class="choice" data-choice="День маленьких подарков: выбрать то, что хочется"><span class="icon">🎁</span><span><b>День маленьких подарков</b><small>Ты выбираешь то, что давно хотелось — сумку, вещь или любую другую приятность. Сегодня можно всё.</small></span><em>♡</em></button>
-<button class="choice" data-choice="Сюрприз от меня"><span class="icon">💌</span><span><b>Сюрприз от меня</b><small>Ничего не планируй — просто доверься мне. Я сам придумаю наш вечер.</small></span><em>♡</em></button>
-</div><button class="secondary hidden" id="toMessage">Продолжить к последнему вопросу →</button></div></section>
-<section class="screen" id="message"><div class="card"><div class="progress"><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="eyebrow">шаг 3 из 3</div><h2>И последнее…<br><span>скажи мне пару слов ♡</span></h2><p class="muted">Можешь написать пожелание, идею или то, чего тебе хочется в этот день. А можешь оставить просто сердечко.</p><textarea id="wish" maxlength="500" placeholder="Напиши мне здесь..."></textarea><div class="counter"><span id="count">0</span>/500</div><button class="primary" id="send">Отправить мой ответ <span>♥</span></button><button class="back" data-back="choice">← изменить вариант вечера</button></div></section>
-<section class="screen" id="success"><div class="card"><div class="success">♥</div><div class="eyebrow">твой ответ у меня</div><h2>Спасибо, любимая.</h2><p class="lead">Теперь я знаю, какой день и какой вечер ты выбрала. А дальше начинается моя маленькая часть сюрприза.</p><div class="answer"><small>Когда</small><strong id="finalDate"></strong></div><div class="answer"><small>Как проведём вечер</small><strong id="finalChoice"></strong></div><p class="quote">«Самое ценное — не место и не планы. Самое ценное — быть рядом.»</p><div class="signature">С любовью ❤️</div></div></section>
-<div class="error" id="error"></div></main><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f8e8ed">
+  <meta name="description" content="Маленькое приглашение только для тебя ❤️">
+  <title>Для тебя ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Фон -->
+  <div class="ambient a1"></div>
+  <div class="ambient a2"></div>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+
+  <!-- Декоративные слои -->
+  <div class="bg-noise"></div>
+  <div id="petals"></div>
+  <div id="hearts"></div>
+  <div id="sparkles"></div>
+
+  <main class="app">
+
+    <!-- ==================== WELCOME ==================== -->
+
+    <section class="screen active" id="welcome">
+
+      <div class="card hero">
+
+        <div class="eyebrow">
+          маленькое приглашение только для тебя
+        </div>
+
+        <div class="orbit">
+          <span>♥</span>
+          <i>✦</i>
+          <b>♡</b>
+        </div>
+
+        <h1>
+          Давай устроим<br>
+          <span>наш особенный вечер</span>
+        </h1>
+
+        <p class="lead">
+          Ещё один год нашей истории.
+          И мне хочется подарить нам вечер,
+          который будет только нашим —
+          без спешки, лишних дел и всего остального мира.
+        </p>
+
+        <button class="primary" data-next="date">
+          Открыть приглашение
+          <span>♥</span>
+        </button>
+
+        <div class="hint">
+          там тебя ждёт маленький выбор ✨
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== DATE ==================== -->
+
+    <section class="screen" id="date">
+
+      <div class="card">
+
+        <div class="progress">
+          <i class="on"></i>
+          <i></i>
+          <i></i>
+        </div>
+
+        <div class="eyebrow">
+          шаг 1 из 3
+        </div>
+
+        <h2>
+          Когда устроим<br>
+          <span>наш вечер?</span>
+        </h2>
+
+        <p class="muted">
+          Выбери день и время, когда тебе будет приятнее всего.
+          Я подстрою всё остальное ❤️
+        </p>
+
+        <label>
+          📅 Дата
+          <input id="dateInput" type="date">
+        </label>
+
+        <label>
+          🕰️ Время
+          <input id="timeInput" type="time">
+        </label>
+
+        <button class="secondary" id="toChoice">
+          Дальше — выбрать наш вечер →
+        </button>
+
+        <p class="validation" id="dateValidation"></p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== CHOICE ==================== -->
+
+    <section class="screen" id="choice">
+
+      <div class="card">
+
+        <div class="progress">
+          <i class="on"></i>
+          <i class="on"></i>
+          <i></i>
+        </div>
+
+        <div class="eyebrow">
+          шаг 2 из 3
+        </div>
+
+        <h2>
+          Какой вечер<br>
+          <span>тебе хочется?</span>
+        </h2>
+
+        <p class="muted">
+          Выбирай тот вариант, который сейчас хочется больше всего. ❤️
+        </p>
+
+        <div class="choices">
+
+          <button class="choice" data-choice="Ужин дома при свечах">
+            <span class="icon">🕯️</span>
+
+            <span>
+              <b>Ужин дома при свечах</b>
+              <small>
+                Свечи, любимая музыка, вкусный ужин
+                и уютный вечер только вдвоём.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+
+          <button class="choice" data-choice="Красивый ужин в ресторане">
+            <span class="icon">🥂</span>
+
+            <span>
+              <b>Красивый ужин в ресторане</b>
+              <small>
+                Нарядиться, вкусно поужинать
+                и провести вечер немного красивее обычного.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+
+          <button class="choice" data-choice="Вечерняя прогулка вдвоём">
+            <span class="icon">🌙</span>
+
+            <span>
+              <b>Вечерняя прогулка вдвоём</b>
+              <small>
+                Огни города, разговоры и время,
+                которое принадлежит только нам.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+
+          <button class="choice" data-choice="Уютный вечер: купить всё любимое домой">
+            <span class="icon">🛍️</span>
+
+            <span>
+              <b>Закупимся всем любимым домой</b>
+              <small>
+                Выберем вкусняшки, напитки и всё,
+                что захочется, а потом устроим идеальный уютный вечер.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+
+          <button class="choice" data-choice="День маленьких подарков: выбрать то, что хочется">
+            <span class="icon">🎁</span>
+
+            <span>
+              <b>День маленьких подарков</b>
+              <small>
+                Ты выбираешь то, что давно хотелось —
+                сумку, вещь или любую другую приятность.
+                Сегодня можно всё.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+
+          <button class="choice" data-choice="Сюрприз от меня">
+            <span class="icon">💌</span>
+
+            <span>
+              <b>Сюрприз от меня</b>
+              <small>
+                Ничего не планируй — просто доверься мне.
+                Я сам придумаю наш вечер.
+              </small>
+            </span>
+
+            <em>♡</em>
+          </button>
+
+        </div>
+
+        <button class="secondary hidden" id="toMessage">
+          Продолжить к последнему вопросу →
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== MESSAGE ==================== -->
+
+    <section class="screen" id="message">
+
+      <div class="card">
+
+        <div class="progress">
+          <i class="on"></i>
+          <i class="on"></i>
+          <i class="on"></i>
+        </div>
+
+        <div class="eyebrow">
+          шаг 3 из 3
+        </div>
+
+        <h2>
+          И последнее…<br>
+          <span>скажи мне пару слов ♡</span>
+        </h2>
+
+        <p class="muted">
+          Можешь написать пожелание, идею или то,
+          чего тебе хочется в этот день.
+          А можешь оставить просто сердечко.
+        </p>
+
+        <textarea
+          id="wish"
+          maxlength="500"
+          placeholder="Напиши мне здесь..."
+        ></textarea>
+
+        <div class="counter">
+          <span id="count">0</span>/500
+        </div>
+
+        <button class="primary" id="send">
+          Отправить мой ответ
+          <span>♥</span>
+        </button>
+
+        <button class="back" data-back="choice">
+          ← изменить вариант вечера
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================== SUCCESS ==================== -->
+
+    <section class="screen" id="success">
+
+      <div class="card">
+
+        <div class="success">
+          ♥
+        </div>
+
+        <div class="eyebrow">
+          твой ответ у меня
+        </div>
+
+        <h2>
+          Спасибо, любимая.
+        </h2>
+
+        <p class="lead">
+          Теперь я знаю, какой день и какой вечер ты выбрала.
+          А дальше начинается моя маленькая часть сюрприза.
+        </p>
+
+        <div class="answer">
+          <small>Когда</small>
+          <strong id="finalDate"></strong>
+        </div>
+
+        <div class="answer">
+          <small>Как проведём вечер</small>
+          <strong id="finalChoice"></strong>
+        </div>
+
+        <p class="quote">
+          «Самое ценное — не место и не планы.
+          Самое ценное — быть рядом.»
+        </p>
+
+        <div class="signature">
+          С любовью ❤️
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="error" id="error"></div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
