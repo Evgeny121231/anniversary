@@ -1,191 +1,155 @@
 document.addEventListener("DOMContentLoaded",()=>{
 
 
-/* ===============================
-   VARIABLES
-================================ */
-
-const screens =
-document.querySelectorAll(".screen");
-
-
-let chosenDate="";
-let chosenTime="";
-let chosenChoice="";
+let selectedDate = "";
+let selectedTime = "";
+let selectedChoice = "";
 
 
 
-/* ===============================
-   SCREEN SWITCH
-================================ */
+const screens = document.querySelectorAll(".screen");
 
 
-function showScreen(id){
+
+function openScreen(id){
 
     screens.forEach(screen=>{
         screen.classList.remove("active");
     });
 
 
-    const next =
+    const target =
     document.getElementById(id);
 
 
-    if(next){
+    if(target){
 
-        setTimeout(()=>{
+        target.classList.add("active");
 
-            next.classList.add("active");
-
-        },100);
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
 
     }
 
 }
 
 
+
+
+/* =========================
+   ПЕРЕХОДЫ
+========================= */
 
 
 document.querySelectorAll(".next")
-.forEach(btn=>{
-
-
-btn.addEventListener("click",()=>{
-
-
-const target =
-btn.dataset.screen;
-
-
-if(target==="choice"){
-
-
-if(!chosenDate || !chosenTime){
-
-document.getElementById("dateError")
-.textContent =
-"Выбери дату и время ❤️";
-
-
-return;
-
-}
-
-
-}
-
-
-if(target==="message"){
-
-
-if(!chosenChoice){
-
-return;
-
-}
-
-
-}
-
-
-
-showScreen(target);
-
-
-});
-
-
-});
-
-
-
-
-
-/* ===============================
-   DATE
-================================ */
-
-
-const datePicker =
-document.getElementById("datePicker");
-
-
-const dateInput =
-document.getElementById("dateInput");
-
-
-const dateDisplay =
-document.getElementById("dateDisplay");
-
-
-
-datePicker.addEventListener("click",()=>{
-
-    if(dateInput.showPicker){
-        dateInput.showPicker();
-    }else{
-        dateInput.click();
-    }
-
-});
-
-
-
-
-
-dateInput.addEventListener("change",()=>{
-
-
-chosenDate =
-dateInput.value;
-
-
-
-if(chosenDate){
-
-
-const d =
-new Date(chosenDate);
-
-
-dateDisplay.textContent =
-d.toLocaleDateString(
-"ru-RU",
-{
-day:"numeric",
-month:"long",
-year:"numeric"
-}
-);
-
-
-}
-
-
-
-});
-
-
-
-
-
-/* ===============================
-   TIME
-================================ */
-
-
-document.querySelectorAll("[data-time]")
 .forEach(button=>{
 
 
 button.addEventListener("click",()=>{
 
 
-document
-.querySelectorAll("[data-time]")
-.forEach(b=>{
+let target =
+button.dataset.target;
 
-b.classList.remove("active");
+
+
+if(target==="choice"){
+
+
+if(!selectedDate || !selectedTime){
+
+
+document.getElementById("dateError")
+.textContent =
+"Сначала выбери дату и время ❤️";
+
+
+return;
+
+
+}
+
+
+}
+
+
+
+if(target==="message"){
+
+
+if(!selectedChoice){
+
+return;
+
+}
+
+
+}
+
+
+
+openScreen(target);
+
+
+
+});
+
+
+});
+
+
+
+
+
+
+/* =========================
+   ДАТА
+========================= */
+
+
+const dateInput =
+document.getElementById("dateInput");
+
+
+
+dateInput.addEventListener("change",()=>{
+
+
+selectedDate =
+dateInput.value;
+
+
+document.getElementById("dateError")
+.textContent="";
+
+
+});
+
+
+
+
+
+
+
+
+/* =========================
+   ВРЕМЯ
+========================= */
+
+
+document.querySelectorAll(".time-btn")
+.forEach(button=>{
+
+
+button.addEventListener("click",()=>{
+
+
+document.querySelectorAll(".time-btn")
+.forEach(btn=>{
+
+btn.classList.remove("active");
 
 });
 
@@ -194,7 +158,8 @@ b.classList.remove("active");
 button.classList.add("active");
 
 
-chosenTime =
+
+selectedTime =
 button.dataset.time;
 
 
@@ -210,17 +175,21 @@ button.dataset.time;
 
 
 
-/* ===============================
-   CHOICE
-================================ */
+
+
+
+/* =========================
+   ВЫБОР ВЕЧЕРА
+========================= */
 
 
 const choices =
 document.querySelectorAll(".choice");
 
 
-const messageButton =
-document.getElementById("messageButton");
+
+const choiceNext =
+document.getElementById("choiceNext");
 
 
 
@@ -241,18 +210,17 @@ c.classList.remove("selected");
 choice.classList.add("selected");
 
 
-chosenChoice =
+
+selectedChoice =
 choice.dataset.choice;
 
 
 
-messageButton.classList.remove(
-"hidden"
-);
+choiceNext.classList.remove("hidden");
 
 
 
-heartBurst(choice);
+createBurst(choice);
 
 
 
@@ -266,25 +234,29 @@ heartBurst(choice);
 
 
 
-/* ===============================
-   TEXT COUNTER
-================================ */
 
 
-const textarea =
+
+/* =========================
+   ТЕКСТ
+========================= */
+
+
+const wish =
 document.getElementById("wish");
 
 
-const counter =
+const count =
 document.getElementById("count");
 
 
 
-textarea.addEventListener("input",()=>{
+wish.addEventListener("input",()=>{
 
 
-counter.textContent =
-textarea.value.length;
+count.textContent =
+wish.value.length;
+
 
 
 });
@@ -295,9 +267,11 @@ textarea.value.length;
 
 
 
-/* ===============================
-   SEND
-================================ */
+
+
+/* =========================
+   ОТПРАВКА
+========================= */
 
 
 document
@@ -305,19 +279,20 @@ document
 .addEventListener("click",()=>{
 
 
-document.getElementById("finalDate")
+document.getElementById("resultDate")
 .textContent =
-`${chosenDate} ${chosenTime}`;
+selectedDate+" "+selectedTime;
 
 
 
-document.getElementById("finalChoice")
+document.getElementById("resultChoice")
 .textContent =
-chosenChoice;
+selectedChoice;
 
 
 
-showScreen("success");
+openScreen("success");
+
 
 
 celebrate();
@@ -332,9 +307,11 @@ celebrate();
 
 
 
-/* ===============================
-   HEART EFFECTS
-================================ */
+
+
+/* =========================
+   СЕРДЕЧКИ
+========================= */
 
 
 function createHeart(){
@@ -344,7 +321,7 @@ const heart =
 document.createElement("div");
 
 
-heart.textContent =
+heart.innerHTML =
 Math.random()>0.5
 ?
 "♥"
@@ -355,35 +332,34 @@ Math.random()>0.5
 
 heart.style.position="fixed";
 
+
 heart.style.left =
 Math.random()*100+"vw";
 
 
-heart.style.bottom =
-"-20px";
+heart.style.bottom="-30px";
 
 
 heart.style.fontSize =
-15+
-Math.random()*30+
-"px";
+(15+Math.random()*30)+"px";
 
 
-heart.style.color =
-"#e86f96";
+heart.style.color="#e76b92";
 
 
-heart.style.zIndex=10;
+heart.style.zIndex="10";
 
 
 heart.style.pointerEvents="none";
+
 
 
 document.body.appendChild(heart);
 
 
 
-const x =
+
+const move =
 (Math.random()-0.5)*200;
 
 
@@ -391,30 +367,35 @@ const x =
 heart.animate([
 
 {
+
 transform:
-"translate(0,0) rotate(0deg)",
+"translateY(0) rotate(0deg)",
+
 opacity:1
+
 },
 
-
 {
+
 transform:
-`translate(${x}px,-110vh) rotate(360deg)`,
+`translate(${move}px,-110vh) rotate(360deg)`,
+
 opacity:0
+
 }
 
+],{
 
-],
-{
 
 duration:
-5000+
-Math.random()*4000,
+5000+Math.random()*4000,
 
-easing:
-"ease-out"
+
+easing:"ease-out"
+
 
 });
+
 
 
 
@@ -430,78 +411,85 @@ heart.remove();
 
 
 
-setInterval(createHeart,900);
+setInterval(createHeart,800);
 
 
 
 
 
 
-function heartBurst(el){
+
+
+
+function createBurst(element){
 
 
 const rect =
-el.getBoundingClientRect();
+element.getBoundingClientRect();
 
 
 
-for(let i=0;i<10;i++){
+for(let i=0;i<8;i++){
 
 
-const h =
+let heart =
 document.createElement("div");
 
 
-h.textContent="♥";
+heart.textContent="♥";
 
 
-h.style.position="fixed";
+heart.style.position="fixed";
 
 
-h.style.left =
+heart.style.left =
 rect.left+
 rect.width/2+
 "px";
 
 
-h.style.top =
+heart.style.top =
 rect.top+
 20+
 "px";
 
 
-h.style.color="#e86f96";
+heart.style.color="#e76b92";
 
 
-h.style.zIndex=20;
-
-
-document.body.appendChild(h);
+heart.style.zIndex=20;
 
 
 
-const x =
+document.body.appendChild(heart);
+
+
+
+let x =
 (Math.random()-0.5)*150;
 
 
-const y =
+let y =
 (Math.random()-0.5)*150;
 
 
 
-h.animate([
+
+heart.animate([
 
 {
 transform:"scale(0)"
 },
 
 {
+
 transform:
 `translate(${x}px,${y}px) scale(1)`
+
 }
 
-],
-{
+],{
+
 
 duration:700
 
@@ -509,14 +497,17 @@ duration:700
 
 
 
-setTimeout(()=>h.remove(),800);
+setTimeout(()=>heart.remove(),800);
+
+
+
+}
+
 
 
 }
 
 
-
-}
 
 
 
@@ -524,13 +515,10 @@ setTimeout(()=>h.remove(),800);
 function celebrate(){
 
 
-for(let i=0;i<60;i++){
+for(let i=0;i<50;i++){
 
 
-setTimeout(
-createHeart,
-i*40
-);
+setTimeout(createHeart,i*40);
 
 
 }
@@ -546,9 +534,11 @@ i*40
 
 
 
-/* ===============================
-   CANVAS PARTICLES
-================================ */
+
+
+/* =========================
+   CANVAS
+========================= */
 
 
 const canvas =
@@ -566,12 +556,14 @@ let particles=[];
 
 function resize(){
 
+
 canvas.width =
 window.innerWidth;
 
 
 canvas.height =
 window.innerHeight;
+
 
 }
 
@@ -587,26 +579,18 @@ resize
 
 
 
-
 for(let i=0;i<80;i++){
 
 
 particles.push({
 
-x:
-Math.random()*innerWidth,
+x:Math.random()*window.innerWidth,
 
-y:
-Math.random()*innerHeight,
+y:Math.random()*window.innerHeight,
 
-r:
-Math.random()*2+1,
+size:Math.random()*2+1,
 
-speed:
-Math.random()+0.2,
-
-opacity:
-Math.random()
+speed:Math.random()*0.5+0.1
 
 });
 
@@ -617,8 +601,7 @@ Math.random()
 
 
 
-
-function draw(){
+function animate(){
 
 
 ctx.clearRect(
@@ -636,10 +619,10 @@ particles.forEach(p=>{
 p.y-=p.speed;
 
 
+
 if(p.y<0){
 
-p.y=
-canvas.height;
+p.y=canvas.height;
 
 }
 
@@ -651,15 +634,16 @@ ctx.beginPath();
 ctx.arc(
 p.x,
 p.y,
-p.r,
+p.size,
 0,
 Math.PI*2
 );
 
 
 
-ctx.fillStyle =
-`rgba(255,255,255,${p.opacity})`;
+ctx.fillStyle=
+"rgba(255,255,255,.8)";
+
 
 
 ctx.fill();
@@ -670,16 +654,14 @@ ctx.fill();
 
 
 
-requestAnimationFrame(draw);
+requestAnimationFrame(animate);
+
 
 
 }
 
 
-draw();
-
-
-
+animate();
 
 
 
