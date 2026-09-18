@@ -2,6 +2,7 @@
     box-sizing:border-box;
 }
 
+
 html,body{
 
     margin:0;
@@ -14,9 +15,7 @@ html,body{
     Arial,
     sans-serif;
 
-    color:#5b3343;
-
-    overflow-x:hidden;
+    color:#5b3345;
 
 }
 
@@ -24,16 +23,19 @@ html,body{
 
 body{
 
+    overflow-x:hidden;
+
     background:
 
     radial-gradient(
         circle at top,
-        #fff5fa,
-        #f5dce7 45%,
-        #e7bfd1
+        #fff8fb,
+        #f5dbe7 45%,
+        #e7bfd2
     );
 
 }
+
 
 
 
@@ -53,52 +55,63 @@ body{
 }
 
 
+
+
 .ambient{
 
     position:fixed;
 
     border-radius:50%;
 
-    filter:blur(80px);
+    filter:blur(90px);
 
     z-index:0;
 
     animation:
-    float 12s infinite alternate ease-in-out;
+    move 12s infinite alternate;
 
 }
 
 
 
-.a1{
+.ambient.one{
 
     width:500px;
+
     height:500px;
 
-    top:-200px;
-    right:-200px;
+    right:-150px;
+
+    top:-150px;
+
 
     background:
-    rgba(255,120,170,.45);
+    rgba(255,120,170,.5);
 
 }
 
 
 
-.a2{
+.ambient.two{
+
 
     width:450px;
+
     height:450px;
 
-    bottom:-200px;
-    left:-200px;
+    left:-150px;
+
+    bottom:-150px;
+
 
     background:
-    rgba(255,200,220,.8);
+    rgba(255,210,230,.8);
+
 
     animation-delay:3s;
 
 }
+
 
 
 
@@ -116,6 +129,7 @@ body{
 
     padding:25px;
 
+
     position:relative;
 
     z-index:2;
@@ -131,6 +145,7 @@ body{
     display:none;
 
     width:
+
     min(600px,100%);
 
 }
@@ -143,20 +158,16 @@ body{
 
     animation:
 
-    show .6s
-    cubic-bezier(.2,.8,.2,1);
+    appear .6s ease;
 
 }
 
 
 
 
+
+
 .card{
-
-
-    position:relative;
-
-    overflow:hidden;
 
 
     padding:
@@ -169,13 +180,20 @@ body{
 
     background:
 
-    rgba(255,255,255,.38);
+
+    rgba(255,255,255,.45);
 
 
 
     backdrop-filter:
 
-    blur(35px);
+    blur(30px);
+
+
+
+    -webkit-backdrop-filter:
+
+    blur(30px);
 
 
 
@@ -183,26 +201,27 @@ body{
 
     1px solid
 
-    rgba(255,255,255,.65);
+    rgba(255,255,255,.7);
 
 
 
     box-shadow:
 
 
-    0 30px 90px
+    0 30px 80px
 
     rgba(120,50,80,.2);
 
 
+    overflow:hidden;
+
+    position:relative;
 
 }
 
 
 
-
-
-.card::before{
+.card:before{
 
 
     content:"";
@@ -211,24 +230,23 @@ body{
     position:absolute;
 
 
-    width:250px;
+    width:300px;
 
-    height:250px;
+    height:300px;
 
 
-    top:-120px;
+    top:-150px;
 
-    left:-120px;
+    left:-150px;
 
 
     background:
 
     radial-gradient(
-    circle,
-    rgba(255,255,255,.8),
-    transparent 70%
+        circle,
+        rgba(255,255,255,.9),
+        transparent 70%
     );
-
 
 
 }
@@ -237,23 +255,18 @@ body{
 
 
 
-.eyebrow{
-
+.top-text,
+.step{
 
     text-align:center;
 
-
-    font-size:12px;
-
+    text-transform:uppercase;
 
     letter-spacing:3px;
 
+    font-size:12px;
 
-    color:#b06b84;
-
-
-    text-transform:uppercase;
-
+    color:#b06c85;
 
 }
 
@@ -277,8 +290,7 @@ h1{
 
     font-size:
 
-    clamp(32px,8vw,48px);
-
+    clamp(32px,7vw,48px);
 
 }
 
@@ -288,7 +300,6 @@ h2{
 
     font-size:34px;
 
-
 }
 
 
@@ -296,24 +307,21 @@ h2{
 h1 span,
 h2 span{
 
-    color:#d65d82;
+    color:#d75e84;
 
 }
 
 
 
 
-.lead{
 
+p{
 
     text-align:center;
 
-
-    font-size:18px;
-
-
     line-height:1.6;
 
+    font-size:18px;
 
 }
 
@@ -321,7 +329,8 @@ h2 span{
 
 
 
-.heart{
+
+.main-heart{
 
 
     width:130px;
@@ -329,9 +338,10 @@ h2 span{
     height:130px;
 
 
-    margin:
+    margin:25px auto;
 
-    20px auto;
+
+    border-radius:50%;
 
 
     display:flex;
@@ -344,67 +354,46 @@ h2 span{
     font-size:80px;
 
 
-    color:#e56d92;
+    color:#e66b93;
 
 
 
     background:
 
-    rgba(255,255,255,.5);
+    rgba(255,255,255,.55);
 
-
-    border-radius:50%;
 
 
     box-shadow:
 
-    0 0 50px rgba(220,80,130,.3);
+    0 0 60px
+
+    rgba(220,90,130,.3);
 
 
     animation:
 
     pulse 2s infinite;
 
-
 }
 
 
 
 
 
-.big{
-
-    font-size:100px;
-
-}
-
-
-
-button{
-
-
-    border:0;
-
-    font-family:inherit;
-
-
-}
-
-
-
-
-
-.primary,
-.secondary{
+.main-btn{
 
 
     width:100%;
 
 
-    padding:17px;
+    padding:18px;
 
 
     margin-top:20px;
+
+
+    border:none;
 
 
     border-radius:22px;
@@ -413,9 +402,31 @@ button{
     cursor:pointer;
 
 
-    font-size:16px;
+    color:white;
+
+
+    font-size:17px;
+
 
     font-weight:600;
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        #eb7397,
+        #c94f73
+    );
+
+
+    box-shadow:
+
+    0 20px 40px
+
+    rgba(200,80,120,.35);
+
 
 
     transition:.3s;
@@ -425,57 +436,7 @@ button{
 
 
 
-
-
-.primary{
-
-
-    color:white;
-
-
-    background:
-
-    linear-gradient(
-    135deg,
-    #ec7598,
-    #c84e72
-    );
-
-
-    box-shadow:
-
-    0 20px 40px
-    rgba(200,80,120,.35);
-
-
-}
-
-
-
-
-.secondary{
-
-
-    background:
-
-    rgba(255,255,255,.5);
-
-
-    color:#9b506d;
-
-
-    border:
-
-    1px solid rgba(255,255,255,.8);
-
-
-}
-
-
-
-
-
-button:hover{
+.main-btn:hover{
 
 
     transform:
@@ -488,62 +449,99 @@ button:hover{
 
 
 
-.picker input{
-
-    margin-top:8px;
-
-    border:none;
-
-    background:transparent;
-
-    font-size:18px;
-
-    color:#5b3343;
-
-    font-family:inherit;
-
-}
 
 
-
-.picker div:first-child{
-
-
-    font-size:35px;
-
-
-}
-
-
-
-
-.picker small{
-
-
-    display:block;
-
-
-    color:#987080;
-
-
-}
-
-
-
-
-
-.time-title{
+.date-box{
 
 
     margin-top:25px;
 
-    margin-bottom:10px;
+
+    padding:20px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:18px;
+
+
+    border-radius:25px;
+
+
+    background:
+
+    rgba(255,255,255,.5);
+
 
 }
 
 
 
-.time-grid{
+.icon{
+
+    font-size:35px;
+
+}
+
+
+
+.date-box label{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#987080;
+
+}
+
+
+
+#dateInput{
+
+
+    margin-top:5px;
+
+
+    border:none;
+
+
+    outline:none;
+
+
+    background:transparent;
+
+
+    font-size:18px;
+
+
+    color:#5b3345;
+
+
+}
+
+
+
+
+
+
+
+.step-title{
+
+
+    margin-top:25px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.time-list{
 
 
     display:grid;
@@ -561,7 +559,7 @@ button:hover{
 
 
 
-.time-grid button{
+.time-btn{
 
 
     padding:15px;
@@ -570,7 +568,9 @@ button:hover{
     border-radius:18px;
 
 
-    cursor:pointer;
+    border:
+
+    1px solid rgba(255,255,255,.8);
 
 
     background:
@@ -578,31 +578,29 @@ button:hover{
     rgba(255,255,255,.5);
 
 
-    border:
-
-    1px solid rgba(255,255,255,.8);
+    cursor:pointer;
 
 
 }
 
 
 
-.time-grid button.active{
+.time-btn.active{
 
 
     background:
 
     linear-gradient(
     135deg,
-    #e76b91,
-    #bf4e70
+    #e56a91,
+    #be4c70
     );
 
 
     color:white;
 
-
 }
+
 
 
 
@@ -614,11 +612,11 @@ button:hover{
 
     flex-direction:column;
 
-
     gap:15px;
 
 
 }
+
 
 
 
@@ -641,12 +639,10 @@ button:hover{
     border-radius:25px;
 
 
-    cursor:pointer;
-
-
     background:
 
     rgba(255,255,255,.45);
+
 
 
     border:
@@ -654,28 +650,27 @@ button:hover{
     1px solid rgba(255,255,255,.8);
 
 
+
+    cursor:pointer;
+
+
     text-align:left;
 
 
-}
+    transition:.3s;
 
-
-
-.choice div{
-
-    flex:1;
 
 }
 
 
 
-.choice small{
+.choice:hover{
 
-    display:block;
 
-    color:#896574;
+    transform:
 
-    margin-top:5px;
+    translateY(-4px);
+
 
 }
 
@@ -689,10 +684,38 @@ button:hover{
     rgba(255,220,235,.9);
 
 
-    transform:
+}
 
-    scale(1.03);
 
+
+.choice div{
+
+
+    flex:1;
+
+}
+
+
+
+.choice small{
+
+
+    display:block;
+
+
+    color:#8d6675;
+
+
+    margin-top:5px;
+
+
+}
+
+
+
+.emoji{
+
+    font-size:35px;
 
 }
 
@@ -712,7 +735,7 @@ textarea{
     margin-top:20px;
 
 
-    resize:none;
+    padding:20px;
 
 
     border-radius:25px;
@@ -723,12 +746,13 @@ textarea{
     1px solid rgba(255,255,255,.8);
 
 
+
     background:
 
-    rgba(255,255,255,.55);
+    rgba(255,255,255,.5);
 
 
-    padding:20px;
+    resize:none;
 
 
     font-size:16px;
@@ -742,8 +766,18 @@ textarea{
 
 
 
+.counter{
 
-.answer{
+
+    text-align:right;
+
+    margin-top:8px;
+
+}
+
+
+
+.result{
 
 
     margin-top:15px;
@@ -768,7 +802,6 @@ textarea{
 
 
 
-
 .hidden{
 
     display:none;
@@ -777,14 +810,13 @@ textarea{
 
 
 
+.error{
 
-
-#dateError{
-
+    color:#c54f70;
 
     text-align:center;
 
-    color:#c94d70;
+    margin-top:15px;
 
 }
 
@@ -795,69 +827,67 @@ textarea{
 @keyframes pulse{
 
 
-    0%,100%{
+0%,100%{
 
-        transform:scale(1);
-
-    }
-
-
-    50%{
-
-        transform:scale(1.1);
-
-    }
+transform:scale(1);
 
 }
 
 
+50%{
 
+transform:scale(1.1);
 
-
-@keyframes show{
-
-
-    from{
-
-        opacity:0;
-
-        transform:
-        translateY(40px)
-        scale(.95);
-
-    }
-
-
-    to{
-
-        opacity:1;
-
-        transform:none;
-
-    }
+}
 
 
 }
 
 
 
+@keyframes appear{
 
 
-@keyframes float{
+from{
+
+opacity:0;
+
+transform:
+translateY(40px)
+scale(.95);
+
+}
 
 
-    from{
+to{
 
-        transform:translateY(0);
+opacity:1;
 
-    }
+transform:none;
+
+}
 
 
-    to{
+}
 
-        transform:translateY(80px);
 
-    }
+
+
+@keyframes move{
+
+
+from{
+
+transform:translateY(0);
+
+}
+
+
+to{
+
+transform:translateY(70px);
+
+}
 
 
 }
@@ -877,7 +907,7 @@ textarea{
 
 
 
-.time-grid{
+.time-list{
 
     grid-template-columns:
     repeat(2,1fr);
