@@ -52,11 +52,6 @@ body{
 
 }
 
-#dateInput{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
-}
 
 .ambient{
 
@@ -493,34 +488,19 @@ button:hover{
 
 
 
-.picker{
+.picker input{
 
+    margin-top:8px;
 
-    margin-top:25px;
+    border:none;
 
+    background:transparent;
 
-    display:flex;
+    font-size:18px;
 
+    color:#5b3343;
 
-    align-items:center;
-
-
-    gap:20px;
-
-
-    padding:18px;
-
-
-    border-radius:25px;
-
-
-    background:
-
-    rgba(255,255,255,.5);
-
-
-    cursor:pointer;
-
+    font-family:inherit;
 
 }
 
