@@ -52,7 +52,11 @@ body{
 
 }
 
-
+#dateInput{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
 
 .ambient{
 
